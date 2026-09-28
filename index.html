@@ -390,3 +390,21 @@ submitBtn.disabled = false;
 submitBtn.textContent = 'Send message';
 alert("Sorry, that didn't send. Please try again in a moment or call us directly.");
 }
+});
+const homeView = document.getElementById('home-view');
+const aboutView = document.getElementById('about-view');
+function route() {
+const showAbout = location.hash === '#about';
+const changed = showAbout === aboutView.hidden;
+homeView.hidden = showAbout;
+aboutView.hidden = !showAbout;
+document.title = showAbout ? 'About us | Gayatri Furnitures' : 'Gayatri Furnitures';
+if (changed) window.scrollTo(0, 0);
+if (!showAbout && location.hash === '#contact') document.getElementById('contact').scrollIntoView();
+}
+document.getElementById('about-fur').prepend(document.querySelector('.fur svg').cloneNode(true));
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>
