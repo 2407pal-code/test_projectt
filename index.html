@@ -126,6 +126,23 @@ background:repeating-linear-gradient(90deg,var(--sun) 0 34px,transparent 34px 68
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.mover{left:var(--l,10%)}.item{transition:none}}
 </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1100014149655319');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1100014149655319&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 <div id="home-view">
@@ -363,6 +380,7 @@ headers: { Accept: 'application/json' },
 body: d
 });
 if (!res.ok) throw new Error('Request failed');
+if (typeof fbq === 'function') fbq('track', 'Lead');
 const p = document.createElement('p');
 p.className = 'thanks';
 p.textContent = `Thanks, ${d.get('name')}! We'll reach out by ${String(d.get('preference')).toLowerCase()} soon.`;
@@ -372,21 +390,3 @@ submitBtn.disabled = false;
 submitBtn.textContent = 'Send message';
 alert("Sorry, that didn't send. Please try again in a moment or call us directly.");
 }
-});
-const homeView = document.getElementById('home-view');
-const aboutView = document.getElementById('about-view');
-function route() {
-const showAbout = location.hash === '#about';
-const changed = showAbout === aboutView.hidden;
-homeView.hidden = showAbout;
-aboutView.hidden = !showAbout;
-document.title = showAbout ? 'About us | Gayatri Furnitures' : 'Gayatri Furnitures';
-if (changed) window.scrollTo(0, 0);
-if (!showAbout && location.hash === '#contact') document.getElementById('contact').scrollIntoView();
-}
-document.getElementById('about-fur').prepend(document.querySelector('.fur svg').cloneNode(true));
-window.addEventListener('hashchange', route);
-route();
-</script>
-</body>
-</html>
