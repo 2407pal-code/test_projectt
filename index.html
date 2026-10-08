@@ -401,6 +401,13 @@ submitBtn.textContent = 'Send message';
 alert("Sorry, that didn't send. Please try again in a moment or call us directly.");
 }
 });
+if (location.hash === '#contact' || location.hash === '#contact-form') {
+  try {
+    history.replaceState(history.state, '', '#home');
+  } catch (error) {
+    location.hash = '#home';
+  }
+}
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
 const homeView = document.getElementById('home-view');
