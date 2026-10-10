@@ -390,7 +390,25 @@ headers: { Accept: 'application/json' },
 body: d
 });
 if (!res.ok) throw new Error('Request failed');
-if (typeof fbq === 'function') fbq('track', 'Lead');
+const eventId = (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2));
+if (typeof fbq === 'function') fbq('track', 'Lead', {}, { eventID: eventId });
+try {
+const ck = n => (document.cookie.match('(?:^|; )' + n + '=([^;]*)') || [])[1] || '';
+fetch('/api/capi', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+keepalive: true,
+body: JSON.stringify({
+event_id: eventId,
+event_source_url: location.href,
+name: d.get('name') || '',
+email: d.get('email') || '',
+phone: d.get('phone') || '',
+fbp: ck('_fbp'),
+fbc: ck('_fbc')
+})
+}).catch(() => {});
+} catch (_) {}
 const p = document.createElement('p');
 p.className = 'thanks';
 p.textContent = `Thanks, ${d.get('name')}! We'll reach out by ${String(d.get('preference')).toLowerCase()} soon.`;
